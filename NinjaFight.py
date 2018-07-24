@@ -18,7 +18,7 @@ def chooseAttack(player):
     print("  3. " + attacks[2])
     print("  4. " + attacks[3])
     if playerTwoAI and player == 2:
-        xRaw = random.randint(1, 4)
+        xRaw = random.randint(0, 3)
         x = str(xRaw)
         print("Choose Attack for Player " + str(player) + ": " + attacks[xRaw])
     else:
@@ -173,12 +173,24 @@ def setHealth():
 
 def setAI():
     global playerTwoAI
-    defaultAI = input("Enter If Player Two is an AI (False): ")
+    defaultAI = input("Enter If Player 2 is an AI (False): ")
     if defaultAI == "":
         playerTwoAI = False
     elif defaultAI.lower() == "false":
         playerTwoAI = False
     elif defaultAI.lower() == "true":
+        playerTwoAI = True
+    elif defaultAI.lower() == "no":
+        playerTwoAI = False
+    elif defaultAI.lower() == "yes":
+        playerTwoAI = True
+    elif defaultAI.lower() == "n":
+        playerTwoAI = False
+    elif defaultAI.lower() == "y":
+        playerTwoAI = True
+    elif defaultAI.lower() == "0":
+        playerTwoAI = False
+    elif defaultAI.lower() == "1":
         playerTwoAI = True
     else:
         print("Invalid Value!")
@@ -214,4 +226,4 @@ if playerOneHealth < 1 and playerTwoHealth > 0:
 elif playerOneHealth > 0 and playerTwoHealth < 1:
     print("Player 1 Wins!")
 else:
-    print("This is Impossible! You Tied!")
+    print("You Tied!")
