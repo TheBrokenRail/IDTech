@@ -113,7 +113,7 @@ def handleAttack(attack: str, player: int):
             handleIneffective(player)
 
 def alarmHandler(*_):
-    raise ValueError("Timeout!")
+    raise ValueError("TimeoutError")
 
 signal.signal(signal.SIGALRM, alarmHandler)
 
