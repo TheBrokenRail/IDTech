@@ -4,9 +4,9 @@ board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 boardHeight = 3
 boardWidth = 3
 currentPlayer = 1
-playerTwoAI = False
+playerTwoAI: bool
 
-def drawPoint(x, y):
+def drawPoint(x: int, y: int) -> str:
     global board
     if board[x][y] == 0:
         return " "
@@ -25,18 +25,18 @@ def drawBoard():
     print("3 | " + drawPoint(0, 2) + " | " + drawPoint(1, 2) + " | " + drawPoint(2, 2) + " |")
     print("  -------------")
 
-def addPoint(x, y, player):
+def addPoint(x: int, y: int, player: int):
     global board
     board[x][y] = player
 
-def getPoint(x, y):
+def getPoint(x: int, y: int) -> int:
     global board
     if -1 < x < boardWidth and -1 < y < boardHeight:
         return board[x][y]
     else:
         return 0
 
-def randomPoint():
+def randomPoint() -> [str, str]:
     x = random.randint(1, 3)
     y = random.randint(1, 3)
     if getPoint(x, y) == 0:
@@ -46,7 +46,7 @@ def randomPoint():
     else:
         return randomPoint()
 
-def makeMove(player):
+def makeMove(player: int):
     if player == 2 and playerTwoAI:
         point = randomPoint()
         x = point[0]
@@ -68,7 +68,7 @@ def makeMove(player):
         print("Invalid Position!")
         makeMove(player)
 
-def checkPoint(x, y, player):
+def checkPoint(x: int, y: int, player: int) -> bool:
     if getPoint(x, y - 1) == player and getPoint(x, y - 2) == player:
         return True
     elif getPoint(x, y + 1) == player and getPoint(x, y + 2) == player:
@@ -96,7 +96,7 @@ def checkPoint(x, y, player):
     else:
         return False
 
-def detectWin():
+def detectWin() -> int:
     for x in range(0, 2):
         for y in range(0, 2):
             if getPoint(x, y) != 0:

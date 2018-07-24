@@ -3,15 +3,15 @@ import math
 import signal
 import time
 
-playerOneHealth = 0
-playerTwoHealth = 0
+playerOneHealth: int
+playerTwoHealth: int
 playerOneParalyzed = 0
 playerTwoParalyzed = 0
 currentPlayer = 1
-playerTwoAI = False
+playerTwoAI: bool
 attacks = ["Mega Punch", "Super Smash", "Ninja Kick", "Leprechaun Magic"]
 
-def chooseAttack(player):
+def chooseAttack(player: int) -> str:
     print("Attacks:")
     print("  1. " + attacks[0])
     print("  2. " + attacks[1])
@@ -50,7 +50,7 @@ def fixHealth():
     if playerTwoHealth < 0:
         playerTwoHealth = 0
 
-def handleEffective(player):
+def handleEffective(player: int):
     global playerOneHealth, playerTwoHealth, playerOneParalyzed, playerTwoParalyzed
     print("Effective Attack!")
     damage = random.randint(11, 20)
@@ -73,7 +73,7 @@ def handleEffective(player):
                 playerOneParalyzed = playerOneParalyzed + paralyze
             print("Player 1 Is Paralyzed For " + str(playerOneParalyzed) + " Turns!")
 
-def handleIneffective(player):
+def handleIneffective(player: int):
     global playerOneHealth, playerTwoHealth
     print("Ineffective Attack!")
     damage = random.randint(1, 10)
@@ -89,7 +89,7 @@ def handleIneffective(player):
             fixHealth()
             print("Player 1 Has " + str(playerOneHealth) + " Health!")
 
-def handleAttack(attack, player):
+def handleAttack(attack: str, player: int):
     effectiveAttack = random.randint(1, 4)
     if attack == attacks[0]:
         if effectiveAttack == 1:
@@ -112,22 +112,22 @@ def handleAttack(attack, player):
         else:
             handleIneffective(player)
 
-def alarmHandler(signum, frame):
+def alarmHandler():
     raise ValueError("Timeout!")
 
 signal.signal(signal.SIGALRM, alarmHandler)
 
-def inputTimeout(timeout):
+def inputTimeout(timeout: int) -> str:
     signal.alarm(timeout)
     try:
         return input("> ")
     except ValueError:
         print("\nYou Ran Out Of Time!")
-        return None
+        return ""
     finally:
         signal.alarm(0)
 
-def handleBlock(player):
+def handleBlock(player: int) -> bool:
     blockingPlayer = player + 1
     if blockingPlayer == 3:
         blockingPlayer = 1
