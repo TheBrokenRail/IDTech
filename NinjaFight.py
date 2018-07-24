@@ -8,6 +8,7 @@ playerTwoHealth = 0
 playerOneParalyzed = 0
 playerTwoParalyzed = 0
 currentPlayer = 1
+playerTwoAI = False
 attacks = ["Mega Punch", "Super Smash", "Ninja Kick", "Leprechaun Magic"]
 
 def chooseAttack(player):
@@ -16,7 +17,12 @@ def chooseAttack(player):
     print("  2. " + attacks[1])
     print("  3. " + attacks[2])
     print("  4. " + attacks[3])
-    x = input("Choose Attack for Player " + str(player) + ": ")
+    if playerTwoAI and player == 2:
+        xRaw = random.randint(1, 4)
+        x = str(xRaw)
+        print("Choose Attack for Player " + str(player) + ": " + attacks[xRaw])
+    else:
+        x = input("Choose Attack for Player " + str(player) + ": ")
     if x.lower() == attacks[0].lower():
         return attacks[0]
     elif x.lower() == attacks[1].lower():
@@ -48,7 +54,7 @@ def handleEffective(player):
     global playerOneHealth, playerTwoHealth, playerOneParalyzed, playerTwoParalyzed
     print("Effective Attack!")
     damage = random.randint(11, 20)
-    paralyze = math.ceil((damage - 10) / 2)
+    paralyze = math.ceil((damage - 10) / 4)
     print("Player " + str(player) + " Did " + str(damage) + " Damage!")
     if player == 1:
         if not handleBlock(player):
@@ -133,7 +139,11 @@ def handleBlock(player):
     time.sleep(1)
     print("Player " + str(blockingPlayer) + ", Press a Random Key 1-4 Then Hit ENTER to Block!")
     key = random.randint(1, 4)
-    keyPress = inputTimeout(2)
+    if playerTwoAI and blockingPlayer == 2:
+        keyPress = str(random.randint(1, 4))
+        print("> " + keyPress)
+    else:
+        keyPress = inputTimeout(2)
     if keyPress == str(key):
         print("Attack Blocked!")
         return True
@@ -155,13 +165,27 @@ def setHealth():
                 playerOneHealth = int(defaultHealth)
                 playerTwoHealth = int(defaultHealth)
             else:
-                print("Invalid Number!")
+                print("Invalid Value!")
                 setHealth()
         except ValueError:
-            print("Invalid Number!")
+            print("Invalid Value!")
             setHealth()
 
+def setAI():
+    global playerTwoAI
+    defaultAI = input("Enter If Player Two is an AI (False): ")
+    if defaultAI == "":
+        playerTwoAI = False
+    elif defaultAI.lower() == "false":
+        playerTwoAI = False
+    elif defaultAI.lower() == "true":
+        playerTwoAI = True
+    else:
+        print("Invalid Value!")
+        setAI()
+
 setHealth()
+setAI()
 print("Player 1 Has " + str(playerOneHealth) + " Health!")
 print("Player 2 Has " + str(playerTwoHealth) + " Health!\n")
 
