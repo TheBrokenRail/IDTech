@@ -37,8 +37,8 @@ def getPoint(x: int, y: int) -> int:
         return 0
 
 def randomPoint() -> [str, str]:
-    x = random.randint(1, 3)
-    y = random.randint(1, 3)
+    x = random.randint(0, 2)
+    y = random.randint(0, 2)
     if getPoint(x, y) == 0:
         print("Column: " + str(x))
         print("Row: " + str(y))
