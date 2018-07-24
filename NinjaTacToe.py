@@ -1,6 +1,8 @@
 import random
 
 board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+boardHeight = 3
+boardWidth = 3
 currentPlayer = 1
 playerTwoAI = False
 
@@ -29,7 +31,7 @@ def addPoint(x, y, player):
 
 def getPoint(x, y):
     global board
-    if -1 < x < 3 and -1 < y < 3:
+    if -1 < x < boardWidth and -1 < y < boardHeight:
         return board[x][y]
     else:
         return 0
@@ -53,7 +55,7 @@ def makeMove(player):
         x = input("Column: ")
         y = input("Row: ")
     try:
-        if 0 < int(y) < 4 and 0 < int(x) < 4:
+        if 0 < int(y) < boardHeight + 1 and 0 < int(x) < boardWidth + 1:
             if getPoint(int(x) - 1, int(y) - 1) == 0:
                 addPoint(int(x) - 1, int(y) - 1, player)
             else:
