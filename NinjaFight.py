@@ -110,7 +110,7 @@ signal.signal(signal.SIGALRM, alarmHandler)
 def inputTimeout(timeout):
     signal.alarm(timeout)
     try:
-        return input()
+        return input("> ")
     except ValueError:
         print("\nYou Ran Out Of Time!")
         return None
@@ -128,7 +128,7 @@ def handleBlock(player):
     time.sleep(1)
     print("Player " + str(blockingPlayer) + ", Block in 1,")
     time.sleep(1)
-    print("Player " + str(blockingPlayer) + ", Press a Key 1-4 Then Hit Enter to Block!")
+    print("Player " + str(blockingPlayer) + ", Press a Random Key 1-4 Then Hit ENTER to Block!")
     key = random.randint(1, 4)
     keyPress = inputTimeout(2)
     if keyPress == str(key):
@@ -148,6 +148,7 @@ while playerOneHealth > 0 or playerTwoHealth > 0:
             print("Player 1 Is Paralyzed For " + str(playerOneParalyzed) + " More Turns!")
         else:
             handleAttack(chooseAttack(currentPlayer), currentPlayer)
+        print()
         currentPlayer = 2
     elif currentPlayer == 2:
         print("Player 2's Turn!")
@@ -156,6 +157,7 @@ while playerOneHealth > 0 or playerTwoHealth > 0:
             print("Player 2 Is Paralyzed For " + str(playerTwoParalyzed) + " More Turns!")
         else:
             handleAttack(chooseAttack(currentPlayer), currentPlayer)
+        print()
         currentPlayer = 1
 
 if playerOneHealth < 1 and playerTwoHealth > 0:
