@@ -3,13 +3,12 @@ import math
 import signal
 import time
 
-playerOneHealth = 100
-playerTwoHealth = 100
+playerOneHealth = 0
+playerTwoHealth = 0
 playerOneParalyzed = 0
 playerTwoParalyzed = 0
 currentPlayer = 1
 attacks = ["Mega Punch", "Super Smash", "Ninja Kick", "Leprechaun Magic"]
-
 
 def chooseAttack(player):
     print("Attacks:")
@@ -38,6 +37,12 @@ def chooseAttack(player):
         print("Invalid Attack!")
         return chooseAttack(player)
 
+def fixHealth():
+    global playerOneHealth, playerTwoHealth
+    if playerOneHealth < 0:
+        playerOneHealth = 0
+    if playerTwoHealth < 0:
+        playerTwoHealth = 0
 
 def handleEffective(player):
     global playerOneHealth, playerTwoHealth, playerOneParalyzed, playerTwoParalyzed
@@ -48,6 +53,7 @@ def handleEffective(player):
     if player == 1:
         if not handleBlock(player):
             playerTwoHealth = playerTwoHealth - damage
+            fixHealth()
             print("Player 2 Has " + str(playerTwoHealth) + " Health!")
             if paralyze > playerTwoParalyzed:
                 playerTwoParalyzed = playerTwoParalyzed + paralyze
@@ -55,11 +61,11 @@ def handleEffective(player):
     elif player == 2:
         if not handleBlock(player):
             playerOneHealth = playerOneHealth - damage
+            fixHealth()
             print("Player 1 Has " + str(playerOneHealth) + " Health!")
             if paralyze > playerOneParalyzed:
                 playerOneParalyzed = playerOneParalyzed + paralyze
             print("Player 1 Is Paralyzed For " + str(playerOneParalyzed) + " Turns!")
-
 
 def handleIneffective(player):
     global playerOneHealth, playerTwoHealth
@@ -69,12 +75,13 @@ def handleIneffective(player):
     if player == 1:
         if not handleBlock(player):
             playerTwoHealth = playerTwoHealth - damage
+            fixHealth()
             print("Player 2 Has " + str(playerTwoHealth) + " Health!")
     elif player == 2:
         if not handleBlock(player):
             playerOneHealth = playerOneHealth - damage
+            fixHealth()
             print("Player 1 Has " + str(playerOneHealth) + " Health!")
-
 
 def handleAttack(attack, player):
     effectiveAttack = random.randint(1, 4)
@@ -99,13 +106,10 @@ def handleAttack(attack, player):
         else:
             handleIneffective(player)
 
-
 def alarmHandler(signum, frame):
     raise ValueError("Timeout!")
 
-
 signal.signal(signal.SIGALRM, alarmHandler)
-
 
 def inputTimeout(timeout):
     signal.alarm(timeout)
@@ -116,7 +120,6 @@ def inputTimeout(timeout):
         return None
     finally:
         signal.alarm(0)
-
 
 def handleBlock(player):
     blockingPlayer = player + 1
@@ -138,9 +141,31 @@ def handleBlock(player):
         print("Block Failed!")
         return False
 
-
 print("NinjaFight By Connor Nolan!\n")
-while playerOneHealth > 0 or playerTwoHealth > 0:
+
+def setHealth():
+    global playerOneHealth, playerTwoHealth
+    defaultHealth = input("Enter Default Health (100): ")
+    if defaultHealth == "":
+        playerOneHealth = 100
+        playerTwoHealth = 100
+    else:
+        try:
+            if int(defaultHealth) >= 0:
+                playerOneHealth = int(defaultHealth)
+                playerTwoHealth = int(defaultHealth)
+            else:
+                print("Invalid Number!")
+                setHealth()
+        except ValueError:
+            print("Invalid Number!")
+            setHealth()
+
+setHealth()
+print("Player 1 Has " + str(playerOneHealth) + " Health!")
+print("Player 2 Has " + str(playerTwoHealth) + " Health!\n")
+
+while playerOneHealth > 0 and playerTwoHealth > 0:
     if currentPlayer == 1:
         print("Player 1's Turn!")
         if playerOneParalyzed > 0:
