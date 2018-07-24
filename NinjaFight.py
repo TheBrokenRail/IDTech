@@ -9,39 +9,31 @@ playerOneParalyzed = 0
 playerTwoParalyzed = 0
 currentPlayer = 1
 playerTwoAI: bool
-attacks = ["Mega Punch", "Super Smash", "Ninja Kick", "Leprechaun Magic"]
+attacks = [
+    "Mega Punch",
+    "Super Smash",
+    "Ninja Kick",
+    "Leprechaun Magic",
+    "Pirate Attack"
+]
 
 def chooseAttack(player: int) -> str:
     print("Attacks:")
-    print("  1. " + attacks[0])
-    print("  2. " + attacks[1])
-    print("  3. " + attacks[2])
-    print("  4. " + attacks[3])
+    for i in range(len(attacks)):
+        print("  " + str(i + 1) + ". " + attacks[i])
     if playerTwoAI and player == 2:
-        xRaw = random.randint(0, 3)
+        xRaw = random.randint(0, len(attacks) - 1)
         x = str(xRaw)
         print("Choose Attack for Player " + str(player) + ": " + attacks[xRaw])
     else:
         x = input("Choose Attack for Player " + str(player) + ": ")
-    if x.lower() == attacks[0].lower():
-        return attacks[0]
-    elif x.lower() == attacks[1].lower():
-        return attacks[1]
-    elif x.lower() == attacks[2].lower():
-        return attacks[2]
-    elif x.lower() == attacks[3].lower():
-        return attacks[3]
-    elif x == "1":
-        return attacks[0]
-    elif x == "2":
-        return attacks[1]
-    elif x == "3":
-        return attacks[2]
-    elif x == "4":
-        return attacks[3]
-    else:
-        print("Invalid Attack!")
-        return chooseAttack(player)
+    for i in range(len(attacks)):
+        if x.lower() == attacks[i].lower():
+            return attacks[i]
+        elif x == str(i + 1):
+            return attacks[i]
+    print("Invalid Attack!")
+    return chooseAttack(player)
 
 def fixHealth():
     global playerOneHealth, playerTwoHealth
@@ -90,27 +82,13 @@ def handleIneffective(player: int):
             print("Player 1 Has " + str(playerOneHealth) + " Health!")
 
 def handleAttack(attack: str, player: int):
-    effectiveAttack = random.randint(1, 4)
-    if attack == attacks[0]:
-        if effectiveAttack == 1:
-            handleEffective(player)
-        else:
-            handleIneffective(player)
-    elif attack == attacks[1]:
-        if effectiveAttack == 2:
-            handleEffective(player)
-        else:
-            handleIneffective(player)
-    elif attack == attacks[2]:
-        if effectiveAttack == 3:
-            handleEffective(player)
-        else:
-            handleIneffective(player)
-    elif attack == attacks[3]:
-        if effectiveAttack == 4:
-            handleEffective(player)
-        else:
-            handleIneffective(player)
+    effectiveAttack = random.randint(1, len(attacks))
+    for i in range(len(attacks)):
+        if attack == attacks[i]:
+            if effectiveAttack == i:
+                handleEffective(player)
+            else:
+                handleIneffective(player)
 
 def alarmHandler(*_):
     raise ValueError("TimeoutError")
