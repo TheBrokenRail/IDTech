@@ -133,10 +133,10 @@ print("NinjaFight By Connor Nolan!\n")
 
 def setHealth():
     global playerOneHealth, playerTwoHealth
-    defaultHealth = input("Enter Default Health (100): ")
+    defaultHealth = input("Enter Default Health (50): ")
     if defaultHealth == "":
-        playerOneHealth = 100
-        playerTwoHealth = 100
+        playerOneHealth = 50
+        playerTwoHealth = 50
     else:
         try:
             if int(defaultHealth) >= 0:
@@ -174,8 +174,40 @@ def setAI():
         print("Invalid Value!")
         setAI()
 
+def newAttacks():
+    print("Type in Your New Attack!")
+    attack = input("> ")
+    attacks.append(attack)
+    setAttacks()
+
+def setAttacks():
+    global playerTwoAI
+    defaultAI = input("Do You Want To Add More Attacks? (False): ")
+    if defaultAI == "":
+        return
+    elif defaultAI.lower() == "false":
+        return
+    elif defaultAI.lower() == "true":
+        newAttacks()
+    elif defaultAI.lower() == "no":
+        return
+    elif defaultAI.lower() == "yes":
+        newAttacks()
+    elif defaultAI.lower() == "n":
+        return
+    elif defaultAI.lower() == "y":
+        newAttacks()
+    elif defaultAI.lower() == "0":
+        return
+    elif defaultAI.lower() == "1":
+        newAttacks()
+    else:
+        print("Invalid Value!")
+        setAI()
+
 setHealth()
 setAI()
+setAttacks()
 print("Player 1 Has " + str(playerOneHealth) + " Health!")
 print("Player 2 Has " + str(playerTwoHealth) + " Health!\n")
 
