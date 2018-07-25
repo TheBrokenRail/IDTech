@@ -178,6 +178,9 @@ def setAI():
 def newAttacks():
     print("Type in Your New Attack!")
     attack = input("> ")
+    if attack == "":
+        print("Invalid Value!")
+        newAttacks()
     attacks.append(attack)
     setAttacks()
 
