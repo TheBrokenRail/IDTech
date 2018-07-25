@@ -14,7 +14,8 @@ attacks = [
     "Super Smash",
     "Ninja Kick",
     "Leprechaun Magic",
-    "Pirate Attack"
+    "Pirate Attack",
+    "Unicorn Fart"
 ]
 
 def chooseAttack(player: int) -> str:
