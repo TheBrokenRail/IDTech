@@ -97,12 +97,21 @@ def checkPoint(x: int, y: int, player: int) -> bool:
         return False
 
 def detectWin() -> int:
-    for x in range(0, 2):
-        for y in range(0, 2):
+    for x in range(0, boardWidth):
+        for y in range(0, boardHeight):
             if getPoint(x, y) != 0:
                 if checkPoint(x, y, getPoint(x, y)):
                     return getPoint(x, y)
     return 0
+
+def detectTie() -> bool:
+    tie = True
+    for x in range(0, boardWidth):
+        for y in range(0, boardHeight):
+            if getPoint(x, y) == 0:
+                tie = False
+    return tie
+
 
 def setAI():
     global playerTwoAI
@@ -133,7 +142,7 @@ print("NinjaTacToe By Connor Nolan!\n")
 setAI()
 print()
 
-while not detectWin():
+while not detectWin() and not detectTie():
     print("Player " + str(currentPlayer) + "'s Turn!\n")
     drawBoard()
     makeMove(currentPlayer)
@@ -144,4 +153,7 @@ while not detectWin():
         currentPlayer = 1
 
 drawBoard()
-print("Player " + str(detectWin()) + " Won!")
+if not detectTie():
+    print("Player " + str(detectWin()) + " Won!")
+else:
+    print("It's a Tie!")
